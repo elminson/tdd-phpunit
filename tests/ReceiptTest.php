@@ -102,16 +102,16 @@ class ReceiptTest extends TestCase
     /**
      *
      */
-//    public function testTax()
-//    {
-//        $inputAmount = 10.00;
-//        $this->Receipt->tax = 0.10;
-//        $output = $this->Receipt->tax($inputAmount);
-//        $this->assertEquals(
-//            1.00,
-//            $output,
-//            'Tax should be 1.00');
-//    }
+    public function testTax()
+    {
+        $inputAmount = 10.00;
+        $this->Receipt->tax = 0.10;
+        $output = $this->Receipt->tax($inputAmount);
+        $this->assertEquals(
+            1.00,
+            $output,
+            'Tax should be 1.00');
+    }
 
     /**
      *
