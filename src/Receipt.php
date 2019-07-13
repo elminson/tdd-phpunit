@@ -1,18 +1,28 @@
 <?php
 
 namespace TDD;
+
+use \BadMethodCallException;
 /**
  * Class Receipt
  * @package TDD
  */
 class Receipt
 {
+    public function __construct($formatter)
+    {
+        $this->Formatter = $formatter;
+    }
+
     /**
      * @param array $items
      * @return float|int
      */
-    public function total(array $items = [], $coupon)
+    public function subtotal(array $items = [], $coupon)
     {
+        if($coupon > 1.00){
+            throw new BadMethodCallException('Coupon must be les than or equal to 1.00');
+        }
         $sum = array_sum($items);
         if (!is_null($coupon)) {
             return $sum - ($sum * $coupon);
@@ -26,9 +36,9 @@ class Receipt
      * @param $tax
      * @return float|int
      */
-    public function tax($amount, $tax)
+    public function tax($amount)
     {
-        return ($amount * $tax);
+        return $this->Formatter->currencyAmt($amount * $this->tax);
     }
 
     /**
@@ -37,9 +47,10 @@ class Receipt
      * @param $coupon
      * @return float|int
      */
-    public function postTaxTotal($items, $tax, $coupon)
+    public function postTaxTotal($items, $coupon)
     {
-        $subtotal = $this->total($items, $coupon);
-        return $subtotal + $this->tax($subtotal, $tax);
+        $subtotal = $this->subtotal($items, $coupon);
+        return $subtotal + $this->tax($subtotal);
     }
+
 }
